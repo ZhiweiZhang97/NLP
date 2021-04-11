@@ -5,7 +5,7 @@
 <img src="https://user-images.githubusercontent.com/30019518/113801798-8529df80-9794-11eb-825f-ccb75b9eb335.png" width="400"/>
 
 
-
+# Attention
 根据Attention的计算区域，可以分成以下几种：
 
 1）Soft Attention，这是比较常见的Attention方式，对所有key求权重概率，每个key都有一个对应的权重，是一种全局的计算方式（也可以叫Global Attention）。这种方式比较理性，参考了所有key的内容，再进行加权。但是计算量可能会比较大一些。
@@ -40,7 +40,7 @@
 
 3）多头Attention，这是Attention is All You Need中提到的multi-head attention，用到了多个query对一段原文进行了多次attention，每个query都关注到原文的不同部分，相当于重复做多次单层attention：
 
-[公式]
+\[head_i = Attention(q_i, K, V)\]
 
 最后再把这些结果拼接起来：
 
@@ -49,8 +49,6 @@
 
 
 4. 模型方面
-
-从模型上看，Attention一般用在CNN和LSTM上，也可以直接进行纯Attention计算。
 
 1）CNN+Attention
 
@@ -68,7 +66,7 @@ c. 在pooling层做attention，代替max pooling。比如Attention pooling，首
 
 2）LSTM+Attention
 
-LSTM内部有Gate机制，其中input gate选择哪些当前信息进行输入，forget gate选择遗忘哪些过去信息，我觉得这算是一定程度的Attention了，而且号称可以解决长期依赖问题，实际上LSTM需要一步一步去捕捉序列信息，在长文本上的表现是会随着step增加而慢慢衰减，难以保留全部的有用信息。
+LSTM内部有Gate机制，其中input gate选择哪些当前信息进行输入，forget gate选择遗忘哪些过去信息，实际上LSTM需要一步一步去捕捉序列信息，在长文本上的表现是会随着step增加而慢慢衰减，难以保留全部的有用信息。
 
 LSTM通常需要得到一个向量，再去做任务，常用方式有：
 
@@ -82,7 +80,7 @@ c. Attention机制，对所有step的hidden state进行加权，把注意力集�
 
 3）纯Attention
 
-Attention is all you need，没有用到CNN/RNN，乍一听也是一股清流了，但是仔细一看，本质上还是一堆向量去计算attention。
+Attention is all you need，没有用到CNN/RNN，本质上还是一堆向量去计算attention。
 
 
 
