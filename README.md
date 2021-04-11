@@ -40,7 +40,7 @@
 
 3）多头Attention，这是Attention is All You Need中提到的multi-head attention，用到了多个query对一段原文进行了多次attention，每个query都关注到原文的不同部分，相当于重复做多次单层attention：
 
-\[head_i = Attention(q_i, K, V)\]
+\\[head_i = Attention(q_i, K, V)\\]
 
 最后再把这些结果拼接起来：
 
