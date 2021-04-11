@@ -88,4 +88,4 @@ Attention is all you need，没有用到CNN/RNN，本质上还是一堆向量去
 
 在做attention的时候，我们需要计算query和某个key的分数（相似度），常用方法有：
 
-<img src="https://user-images.githubusercontent.com/30019518/113801798-8529df80-9794-11eb-825f-ccb75b9eb335.png" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Selection_071.png" width="400"/>
