@@ -44,7 +44,7 @@
 
 ## 4. 模型
 
-***1）CNN+Attention*
+***1）CNN+Attention***
 
 CNN的卷积操作可以提取重要特征，我觉得这也算是Attention的思想，但是CNN的卷积感受视野是局部的，需要通过叠加多层卷积区去扩大视野。另外，Max Pooling直接提取数值最大的特征，也像是hard attention的思想，直接选中某个特征。
 
@@ -58,7 +58,7 @@ CNN上加Attention可以加在这几方面：
 
 
 
-***2）LSTM+Attention*
+***2）LSTM+Attention***
 
 LSTM内部有Gate机制，其中input gate选择哪些当前信息进行输入，forget gate选择遗忘哪些过去信息，实际上LSTM需要一步一步去捕捉序列信息，在长文本上的表现是会随着step增加而慢慢衰减，难以保留全部的有用信息。
 
@@ -72,7 +72,7 @@ LSTM通常需要得到一个向量，再去做任务，常用方式有：
 
 
 
-***3）纯Attention*
+***3）纯Attention***
 
 Attention is all you need，没有用到CNN/RNN，本质上还是一堆向量去计算attention。
 
