@@ -84,6 +84,4 @@ Attention is all you need，没有用到CNN/RNN，本质上还是一堆向量去
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Selection_071.png" width="400"/>
 
-### 6. Attention Mechanism
-
 
