@@ -58,11 +58,9 @@ Batch Normalization 是对这批样本的同一维度特征做归一化， Layer
 
 BN、LN可以看作横向和纵向的区别。经过归一化再输入激活函数，得到的值大部分会落入非线性函数的线性区，导数远离导数饱和区，避免了梯度消失，这样来加速训练收敛过程。
 
-BatchNorm就是通过对batch size这个维度归一化来让分布稳定下来。BN独立地规范化每一个输入维度x ，但规范化的参数是一个mini-batch的一阶统计量和二阶统计量。这就要求每一个mini-batch 的统计量是整体统计量的近似估计，或者说每一个 mini-batch 彼此之间，以及和整体数据，都应该是近似同分布的。分布差距较小的 mini-batch 可以看做是为规范化操作和模型训练引入了噪声，可以增加模型的鲁棒性；但如果每个 mini-batch的原始分布差别很大，那么不同 mini-batch 的数据将会进行不一样的数据变换，这就增加了模型训练的难度。
+**BatchNorm就是通过对batch size这个维度归一化来让分布稳定下来。** BN独立地规范化每一个输入维度x ，但规范化的参数是一个mini-batch的一阶统计量和二阶统计量。这就要求每一个mini-batch 的统计量是整体统计量的近似估计，或者说每一个 mini-batch 彼此之间，以及和整体数据，都应该是近似同分布的。分布差距较小的 mini-batch 可以看做是为规范化操作和模型训练引入了噪声，可以增加模型的鲁棒性；但如果每个 mini-batch的原始分布差别很大，那么不同 mini-batch 的数据将会进行不一样的数据变换，这就增加了模型训练的难度。适用场景：每个 mini-batch 比较大，数据分布比较接近。
 
-适用的场景是：每个 mini-batch 比较大，数据分布比较接近。
-
-LayerNorm则是通过对Hidden size这个维度归一。LN 针对单个训练样本进行，不依赖于其他数据，因此可以避免 BN 中受 mini-batch 数据分布影响的问题，可以用于 小mini-batch场景、动态网络场景和 RNN，特别是自然语言处理领域。此外，LN 不需要保存 mini-batch 的均值和方差，节省了额外的存储空间。
+**LayerNorm则是通过对Hidden size这个维度归一。**LN 针对单个训练样本进行，不依赖于其他数据，因此可以避免 BN 中受 mini-batch 数据分布影响的问题，可以用于 小mini-batch场景、动态网络场景和 RNN，特别是自然语言处理领域。此外，LN 不需要保存 mini-batch 的均值和方差，节省了额外的存储空间。
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm2.png" width="400"/>
 
