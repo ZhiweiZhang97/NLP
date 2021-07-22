@@ -53,6 +53,6 @@ sigmoid函数的梯度随着x的增大或减小和消失，而ReLU不会。
 
 Batch Normalization & Layer Normalization
 
-<img src="https://user-images.githubusercontent.com/Norm.png" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm.png" width="400"/>
 
 <img src="https://user-images.githubusercontent.com/Norm2.png" width="400"/>
