@@ -36,29 +36,34 @@ LSTM 在很大程度上缓解了一个在 RNN 训练中非常突出的问题：�
 梯度消失和梯度爆炸主要存在RNN中，因为RNN中每个时间片使用相同的权值矩阵。对于一个DNN，虽然也涉及多个矩阵的相乘，但是通过精心设计权值的比例可以避免梯度消失和梯度爆炸的问题。
 
 
-常用的用于解决梯度消失和梯度爆炸的方法如下所示：
+## 常用的用于解决梯度消失和梯度爆炸的方法如下所示：
 
-## - 处理梯度爆炸可以采用梯度截断的方法。
+- 处理梯度爆炸可以采用梯度截断的方法。
 
     - 所谓梯度截断是指将梯度值超过阈值 \deta 的梯度手动降到 \deta 。虽然梯度截断会一定程度上改变梯度的方向，但梯度截断的方向依旧是朝向损失函数减小的方向。
     对比梯度爆炸，梯度消失不能简单的通过类似梯度截断的阈值式方法来解决，因为长期依赖的现象也会产生很小的梯度。如果刻意提高小梯度的值将会使模型失去捕捉长期依赖的能力。
 
-## - 使用 ReLU、LReLU、ELU、maxout 等激活函数
+- 使用 ReLU、LReLU、ELU、maxout 等激活函数
 
     - sigmoid函数的梯度随着x的增大或减小和消失，而ReLU不会。
 
-## - Batch Normalization
+- Batch Normalization
 
     - 通过规范化操作将输出信号x规范化到均值为0，方差为1保证网络的稳定性.Batch Normalization 就是通过对每一层的输出规范为均值和方差一致的方法，消除了参数w带来的放大缩小的影响，进而解决梯度消失和爆炸的问题。
 
-# Batch Normalization & Layer Normalization
+# Batch Normalization(BN) & Layer Normalization(LN)
 Batch Normalization 是对这批样本的同一维度特征做归一化， Layer Normalization 是对这单个样本的所有维度特征做归一化。
+
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm.png" width="400"/>
 
-<<<<<<< HEAD
+BN、LN可以看作横向和纵向的区别。经过归一化再输入激活函数，得到的值大部分会落入非线性函数的线性区，导数远离导数饱和区，避免了梯度消失，这样来加速训练收敛过程。
+
+BatchNorm就是通过对batch size这个维度归一化来让分布稳定下来。BN独立地规范化每一个输入维度x ，但规范化的参数是一个mini-batch的一阶统计量和二阶统计量。这就要求每一个mini-batch 的统计量是整体统计量的近似估计，或者说每一个 mini-batch 彼此之间，以及和整体数据，都应该是近似同分布的。分布差距较小的 mini-batch 可以看做是为规范化操作和模型训练引入了噪声，可以增加模型的鲁棒性；但如果每个 mini-batch的原始分布差别很大，那么不同 mini-batch 的数据将会进行不一样的数据变换，这就增加了模型训练的难度。
+
+适用的场景是：每个 mini-batch 比较大，数据分布比较接近。
+
+LayerNorm则是通过对Hidden size这个维度归一。LN 针对单个训练样本进行，不依赖于其他数据，因此可以避免 BN 中受 mini-batch 数据分布影响的问题，可以用于 小mini-batch场景、动态网络场景和 RNN，特别是自然语言处理领域。此外，LN 不需要保存 mini-batch 的均值和方差，节省了额外的存储空间。
+
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm2.png" width="400"/>
-=======
-<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm.png" width="400"/>
 
-<img src="https://user-images.githubusercontent.com/Norm2.png" width="400"/>
->>>>>>> c4659fffab2b4d85020cd4632f6cd673dcb21bf4
+BN 的转换是针对单个神经元可训练的——不同神经元的输入经过再平移和再缩放后分布在不同的区间，而 LN 对于一整层的神经元训练得到同一个转换——所有的输入都在同一个区间范围内。如果不同输入特征不属于相似的类别（比如颜色和大小），那么 LN 的处理可能会降低模型的表达能力。
