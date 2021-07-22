@@ -13,7 +13,7 @@ CNN通常由一个或多个卷积层（Convolutional Layer）和全连接层（F
 # RNN
 循环神经网络的神经元除了接受前一状态的输出作为输入，还有自身的状态信息，其状态信息在网络中循环传递；RNN 把所处理的数据序列视作时间序列，在每一个时刻 t，每个 RNN 的神经元接受两个输入：当前时刻的输入样本 xt，和上一时刻自身的输出 ht-1. ht = F(ht-1, xt).
 
-<img src="https://user-images.githubusercontent.com/RNN.jpeg" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/RNN.jpeg" width="400"/>
 
 # LSTM
 每个神经元接受的输入除了当前时刻样本输入，上一个时刻的输出，还有一个元胞状态（Cell State）。如果把 LSTM 的遗忘门强行置0，输入门置1，输出门置1，则 LSTM 就变成了标准 RNN。
@@ -24,7 +24,7 @@ CNN通常由一个或多个卷积层（Convolutional Layer）和全连接层（F
 
 LSTM 在很大程度上缓解了一个在 RNN 训练中非常突出的问题：梯度消失/爆炸（Gradient Vanishing/Exploding）。因为三个门，尤其是遗忘门的存在，LSTM 在训练时能够控制梯度的收敛性，从而梯度消失/爆炸的问题得以缓解，同时也能够保持长期的记忆性。
 
-<img src="https://user-images.githubusercontent.com/LSTM.png" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/LSTM.png" width="400"/>
 
 # 梯度消失/爆炸
 
@@ -38,21 +38,21 @@ LSTM 在很大程度上缓解了一个在 RNN 训练中非常突出的问题：�
 
 常用的用于解决梯度消失和梯度爆炸的方法如下所示：
 
-- 处理梯度爆炸可以采用梯度截断的方法。
+## - 处理梯度爆炸可以采用梯度截断的方法。
 
-所谓梯度截断是指将梯度值超过阈值 \deta 的梯度手动降到 \deta 。虽然梯度截断会一定程度上改变梯度的方向，但梯度截断的方向依旧是朝向损失函数减小的方向。
-对比梯度爆炸，梯度消失不能简单的通过类似梯度截断的阈值式方法来解决，因为长期依赖的现象也会产生很小的梯度。如果刻意提高小梯度的值将会使模型失去捕捉长期依赖的能力。
+    - 所谓梯度截断是指将梯度值超过阈值 \deta 的梯度手动降到 \deta 。虽然梯度截断会一定程度上改变梯度的方向，但梯度截断的方向依旧是朝向损失函数减小的方向。
+    对比梯度爆炸，梯度消失不能简单的通过类似梯度截断的阈值式方法来解决，因为长期依赖的现象也会产生很小的梯度。如果刻意提高小梯度的值将会使模型失去捕捉长期依赖的能力。
 
-- 使用 ReLU、LReLU、ELU、maxout 等激活函数
+## - 使用 ReLU、LReLU、ELU、maxout 等激活函数
 
-sigmoid函数的梯度随着x的增大或减小和消失，而ReLU不会。
+    - sigmoid函数的梯度随着x的增大或减小和消失，而ReLU不会。
 
-- Batch Normalization
+## - Batch Normalization
 
-通过规范化操作将输出信号x规范化到均值为0，方差为1保证网络的稳定性.Batch Normalization 就是通过对每一层的输出规范为均值和方差一致的方法，消除了参数w带来的放大缩小的影响，进而解决梯度消失和爆炸的问题。
+    - 通过规范化操作将输出信号x规范化到均值为0，方差为1保证网络的稳定性.Batch Normalization 就是通过对每一层的输出规范为均值和方差一致的方法，消除了参数w带来的放大缩小的影响，进而解决梯度消失和爆炸的问题。
 
-Batch Normalization & Layer Normalization
+# Batch Normalization & Layer Normalization
+Batch Normalization 是对这批样本的同一维度特征做归一化， Layer Normalization 是对这单个样本的所有维度特征做归一化。
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm.png" width="400"/>
 
-<img src="https://user-images.githubusercontent.com/Norm.png" width="400"/>
-
-<img src="https://user-images.githubusercontent.com/Norm2.png" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm2.png" width="400"/>
