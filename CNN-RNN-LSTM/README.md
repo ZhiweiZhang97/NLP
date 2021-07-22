@@ -55,4 +55,10 @@ LSTM 在很大程度上缓解了一个在 RNN 训练中非常突出的问题：�
 Batch Normalization 是对这批样本的同一维度特征做归一化， Layer Normalization 是对这单个样本的所有维度特征做归一化。
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm.png" width="400"/>
 
+<<<<<<< HEAD
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm2.png" width="400"/>
+=======
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Norm.png" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/Norm2.png" width="400"/>
+>>>>>>> c4659fffab2b4d85020cd4632f6cd673dcb21bf4
