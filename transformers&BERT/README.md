@@ -49,6 +49,6 @@ Add & Norm模块接在Encoder和Decoder端每个子模块的后面，其中Add�
 
 其中pos为位置，i为维度. 之所以这样定义position encoding，是希望position encoding满足下列的特性：
 - 每个位置有一个唯一的positional encoding. 
-- 两个位置之间的关系可以通过他们位置编码间的仿射变换来建模（获得），即任意位置<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{pos\+k}" style="border:none;">可以表示为<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{pos}" style="border:none;">的线性函数.
+- 两个位置之间的关系可以通过他们位置编码间的仿射变换来建模（获得），即任意位置<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{pos \pm k}" style="border:none;">可以表示为<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{pos}" style="border:none;">的线性函数.
 
 Transformer中，Positional Encoding不是通过网络学习得来的，而是直接通过上述公式计算而来的，论文中也实验了利用网络学习Positional Encoding，发现结果与上述基本一致，但是**因为三角公式不受序列长度的限制，也就是可以对比所遇到序列的更长的序列进行表示**，论文中选择了正弦和余弦函数版本.
