@@ -21,6 +21,5 @@ Transformers是一个典型的encoder-decoder模型.由6个encoder和6个decoder
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/selfA.webp" width="400"/>
 
-<img src="http://chart.googleapis.com/chart?cht=tx&chl= Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V" style="border:none;" alig=center>
-
-Scaled Dot-Product Attention: **将query和key-value键值对的一组集合映射到输出**，其中query和keys的维度均为
+Scaled Dot-Product Attention: **将query和key-value键值对的一组集合映射到输出**，其中query和keys的维度均为d_k，values的维度为d_v，输出被计算为values的加权和，其中每个value的权重由query和key的相似性函数计算得到，对应公式为：
+<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V" style="border:none;">
