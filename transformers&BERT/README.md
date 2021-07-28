@@ -22,9 +22,9 @@ Transformers是一个典型的encoder-decoder模型.由6个encoder和6个decoder
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/selfA.webp" width="400"/>
 
-Scaled Dot-Product Attention: **将query和key-value键值对的一组集合映射到输出**，其中query和keys的维度均为d_k，values的维度为d_v，输出被计算为values的加权和，其中每个value的权重由query和key的相似性函数计算得到.<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V" style="border:none;">
+**Scaled Dot-Product Attention:** 将query和key-value键值对的一组集合映射到输出，其中query和keys的维度均为d_k，values的维度为d_v，输出被计算为values的加权和，其中每个value的权重由query和key的相似性函数计算得到.<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V" style="border:none;">
 
-Multi-Head Attention: 将Q,K,V通过参数矩阵映射后(给Q,K,V分别接一个全连接层)，然后再做self-attention，将这个过程重复h次，最后再将所有的结果拼接起来，再送入一个全连接层.
+**Multi-Head Attention:** 将Q,K,V通过参数矩阵映射后(给Q,K,V分别接一个全连接层)，然后再做self-attention，将这个过程重复h次，最后再将所有的结果拼接起来，再送入一个全连接层.
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/mutiA.webp" width="400"/>
 
@@ -35,4 +35,20 @@ Multi-Head Attention: 将Q,K,V通过参数矩阵映射后(给Q,K,V分别接一�
 
 ### 多头Encoder-Decoder attention交互模块
 
-多头Encoder-Decoder attention交互模块的形式与Multi-Head Attention模块一致，唯一不同的是Q,K,V矩阵的来源，Q矩阵源于下方子模块的输出(对应模型图中masked Multi-Head Attention模块经过 Add & Norm 后的输出)，而K,V矩阵则源于整个Encoder端的输出. 这里的交互模块类似于seq2seq with attention中的机制，目的在于让Decoder端的单词(token)给予Encoder端对应的单词(token)“更多的关注(attention weight)”.
+多头Encoder-Decoder attention交互模块的形式与Multi-Head Attention模块一致，唯一不同的是Q,K,V矩阵的来源，Q矩阵源于下方子模块的输出(对应模型图中masked Multi-Head Attention模块经过Add & Norm后的输出)，而K,V矩阵则源于整个Encoder端的输出. 这里的交互模块类似于seq2seq with attention中的机制，目的在于让Decoder端的单词(token)给予Encoder端对应的单词(token)“更多的关注(attention weight)”.
+
+### Add & Norm模块
+
+Add & Norm模块接在Encoder和Decoder端每个子模块的后面，其中Add表示残差连接，Norm表示LayerNorm，因此Encoder端和Decoder端每个子模块实际的输出为: LayerNorm(x + Sublayer(x))，其中Sublayer(x)为子模块的输出.
+
+### Positional Encoding
+
+由于transformers中不具有循环和卷积结构，为了使模型能够利用序列的顺序信息，因此引入了Positional Encoding来解决这一问题.
+
+<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{(pos,2i)} = sin(pos/10000^{2i/d_{model}}) PE_{(pos,2i+1)} = cos(pos/10000^{2i/d_{model}}) style="border:none;">
+
+其中pos为位置，i为维度. 之所以这样定义position encoding，是希望position encoding满足下列的特性：
+- 每个位置有一个唯一的positional encoding. 
+- 两个位置之间的关系可以通过他们位置编码间的仿射变换来建模（获得），即任意位置<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{pos+k} style="border:none;">可以表示为<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= PE_{pos} style="border:none;">的线性函数.
+
+Transformer中，Positional Encoding不是通过网络学习得来的，而是直接通过上述公式计算而来的，论文中也实验了利用网络学习Positional Encoding，发现结果与上述基本一致，但是**因为三角公式不受序列长度的限制，也就是可以对比所遇到序列的更长的序列进行表示**，论文中选择了正弦和余弦函数版本.
