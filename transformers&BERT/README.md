@@ -49,6 +49,7 @@ Add & Norm模块接在Encoder和Decoder端每个子模块的后面，其中Add�
 由于transformers中不具有循环和卷积结构，为了使模型能够利用序列的顺序信息，因此引入了Positional Encoding来解决这一问题.
 
 $ PE_{(pos,2i)} = sin(pos/10000^{2i/d_{model}}) $
+
 $ PE_{(pos,2i+1)} = cos(pos/10000^{2i/d_{model}}) $
 
 其中pos为位置，i为维度. 之所以这样定义position encoding，是希望position encoding满足下列的特性：
