@@ -31,7 +31,7 @@ Transformers是一个典型的encoder-decoder模型.由6个encoder和6个decoder
 ### 前馈神经网络
 
 前馈神经网络模块(即图示中的 Feed Forward)由两个线性变换组成，中间有一个 ReLU 激活函数.
-<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= FFN(x) = max(0, xW_1 + b_1)W_2 + b_2" style="border:none;">
+<img align="center" src="http://chart.googleapis.com/chart?cht=tx&chl= FFN(x) = max(0, xW_1 - b_1)W_2 + b_2" style="border:none;">
 
 ### 多头Encoder-Decoder attention交互模块
 
