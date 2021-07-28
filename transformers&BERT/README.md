@@ -1,11 +1,11 @@
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
       processEscapes: true
     }
   });
-</script>
+</script> -->
 
 # Transformers
 
