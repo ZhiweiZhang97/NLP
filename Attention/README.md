@@ -77,4 +77,11 @@ Attention is all you need，没有用到CNN/RNN，本质上还是一堆向量去
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/Selection_071.png" width="400"/>
 
+# Self-Attention
 
+self-attention是一种通过自身和自身相关联，从而得到一个更好的representation来表达自身的Attention机制，可以看出是一般attention的一种特殊情况，self-attention中Q=K=V，序列中的每一个单词(token)和该序列中的其它单词(token)进行Attention计算. **self-attention无视词(token)之间的距离直接计算依赖关系，从而能够学习到序列的内部结构.** 在多数情况下，会对下游任务有一定的促进作用.
+
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/selfa1.jpeg" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/selfa2.jpeg" width="400"/>
+
+从图中可以看出，self-attention可以捕获同一个句子中单词之间的一些句法特征或语义特征. 相对于RNN或LSTM的依次序序列计算，self-attention在计算过程中会直接将句子中任意两个单词的联系通过一个计算步骤直接的联系起来，极大的缩短了远距离依赖特征之间的距离，能够更容易的捕获句子中长距离的相互依赖的特征，并更加有效的利用这些特征. 同时self-attention对于增加计算的并行性也有直接的帮助.
