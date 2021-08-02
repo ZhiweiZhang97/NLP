@@ -90,3 +90,7 @@ self-attention计算方式: 将query和key-value键值对的一组集合映射�
 $
     Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
 $
+
+### self-attention为什么要使用 Q、K、V，仅仅使用 Q、V/K、V或者V为什么不行
+
+首先，使用Q/K/V不相同可以保证在不同空间进行投影，增强了表达能力，提高了泛化能力. 如果令Q和K相同，那么得到的模型大概率会得到一个类似单位矩阵的attention矩阵，这样self-attention就退化成一个point-wise线性映射，对于注意力上的表现力不够强.

@@ -58,5 +58,20 @@ $ PE_{(pos,2i+1)} = cos(pos/10000^{2i/d_{model}}) $
 
 Transformer中，Positional Encoding不是通过网络学习得来的，而是直接通过上述公式计算而来的，论文中也实验了利用网络学习Positional Encoding，发现结果与上述基本一致，但是**因为三角公式不受序列长度的限制，也就是可以对比所遇到序列的更长的序列进行表示**，因此选择了正弦和余弦函数版本.
 
+### Some questions
 
+#### Why Multi-head Attention
+
+原论文中说进行Multi-head Attention的原因是将模型分为多个头，形成多个子空间，可以让模型去关注不同方面的信息，最后再将各个方面的信息综合起来. 直观上来说，多头注意力**有助于网络捕获到更丰富的特征/信息**，可以类比CNN中同时使用多个卷积核的作用.
+
+#### Transformer相比于RNN/LSTM的优势
+
+- RNN系列的模型并行能力很差
+    - RNN系列模型T时刻隐层状态的计算依赖T时刻的句子输入单词$X_t$和T-1时刻的隐层状态的输出$S_{t-1}$. 由于RNN模型的当前时刻的计算依赖前一时刻的隐层状态的计算结果，从而形成了序列依赖关系，导致RNN系列模型的并行能力很差.
+
+- Transformers的特征抽取能力比RNN系列模型更好
+
+虽然Transformer在大部分情况下优于RNN/LSTM，但并不是说Transformer能够完全替代RNN/LSTM，如何模型都有其适用范围.
+
+#### Transformer训练过程
 
