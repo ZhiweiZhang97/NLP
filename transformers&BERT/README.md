@@ -42,7 +42,7 @@ $FFN(x) = max(0, xW_1 + b_1)W_2 + b_2$
 
 ### Add & Norm模块
 
-Add & Norm模块接在Encoder和Decoder端每个子模块的后面，其中Add表示残差连接，Norm表示LayerNorm，因此Encoder端和Decoder端每个子模块实际的输出为: LayerNorm(x + Sublayer(x))，其中Sublayer(x)为子模块的输出.
+Add & Norm模块接在Encoder和Decoder端每个子模块的后面，其中Add表示残差连接，Norm表示LayerNorm，因此Encoder端和Decoder端每个子模块实际的输出为: LayerNorm(x + Sublayer(x))，其中Sublayer(x)为子模块的输出. (防止梯度消失，帮助深层网络训练).
 
 ### Positional Encoding
 
@@ -63,6 +63,8 @@ Transformer中，Positional Encoding不是通过网络学习得来的，而是�
 #### Why Multi-head Attention
 
 原论文中说进行Multi-head Attention的原因是将模型分为多个头，形成多个子空间，可以让模型去关注不同方面的信息，最后再将各个方面的信息综合起来. 直观上来说，多头注意力**有助于网络捕获到更丰富的特征/信息**，可以类比CNN中同时使用多个卷积核的作用.
+
+在不增加时间复杂度的情况下，同时，借鉴CNN多核的思想，在更低的维度，在多个独立的特征空间，更容易学习到更丰富的特征信息.(transformer中multi-head attention中每个head为什么要进行降维？)
 
 #### self-attention为什么要使用 Q、K、V，仅仅使用 Q、V/K、V或者V为什么不行
 
