@@ -64,6 +64,30 @@ Transformer中，Positional Encoding不是通过网络学习得来的，而是�
 
 原论文中说进行Multi-head Attention的原因是将模型分为多个头，形成多个子空间，可以让模型去关注不同方面的信息，最后再将各个方面的信息综合起来. 直观上来说，多头注意力**有助于网络捕获到更丰富的特征/信息**，可以类比CNN中同时使用多个卷积核的作用.
 
+#### self-attention为什么要使用 Q、K、V，仅仅使用 Q、V/K、V或者V为什么不行
+
+首先，使用不相同但Q、K、V可以保证模型在不同空间进行投影，增强了表达能力，提高了泛化能力. 如果令Q和K相同，那么得到的模型大概率会得到一个类似单位矩阵的attention矩阵，这样self-attention就退化成一个point-wise线性映射，对于注意力上的表现力不够强.
+
+#### Self-Attention为什么能发挥如此大的作用
+
+self-attention是一种通过自身和自身相关联，从而得到一个更好的representation来表达自身的Attention机制，可以看出是一般attention的一种特殊情况，self-attention中Q=K=V，序列中的每一个单词(token)和该序列中的其它单词(token)进行Attention计算. **self-attention无视词(token)之间的距离直接计算依赖关系，从而能够学习到序列的内部结构.** 在多数情况下，会对下游任务有一定的促进作用.
+
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/selfa1.jpeg" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/selfa2.jpeg" width="400"/>
+
+从图中可以看出，self-attention可以捕获同一个句子中单词之间的一些句法特征或语义特征. 相对于RNN或LSTM的依次序序列计算，self-attention在计算过程中会直接将句子中任意两个单词的联系通过一个计算步骤直接的联系起来，极大的缩短了远距离依赖特征之间的距离，能够更容易的捕获句子中长距离的相互依赖的特征，并更加有效的利用这些特征. 同时self-attention对于增加计算的并行性也有直接的帮助.
+
+self-attention计算方式: 将query和key-value键值对的一组集合映射到输出，其中query和keys的维度均为d_k，values的维度为d_v，输出被计算为values的加权和，其中每个value的权重由query和key的相似性函数计算得到.
+$
+    Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
+$
+
+#### self-attention中归一化的作用
+
+随着模型$d_k$的增大，$q \cdot k$的点积结果也会随之增大，这样会将softmax函数推入梯度非常小的区域，使得收敛困难(可能出现梯度消失的情况). 
+
+假设向量$q$和$k$的各个分量是互相独立的随机变量，均值是0，方差是1，那么点积$q \cdot k$的均值是0，方差是$d_k$. 方差越大也就说明，点积的数量级越大(以越大的概率取大值). 那么一个自然的做法就是把方差稳定到1，做法是将点积除以$\sqrt{d_k}$，这样有$D(\frac{q \cdot k}{\sqrt{d_k}}) = \frac{d_k}{\sqrt{d_K}^2} = 1$. 将方差控制为1，也就**有效地控制了梯度消失的问题**.
+
 #### Transformer相比于RNN/LSTM的优势
 
 - RNN系列的模型并行能力很差
@@ -71,7 +95,20 @@ Transformer中，Positional Encoding不是通过网络学习得来的，而是�
 
 - Transformers的特征抽取能力比RNN系列模型更好
 
-虽然Transformer在大部分情况下优于RNN/LSTM，但并不是说Transformer能够完全替代RNN/LSTM，如何模型都有其适用范围.
+虽然Transformer在大部分情况下优于RNN/LSTM，但并不是说Transformer能够完全替代RNN/LSTM，任何模型都有其适用范围.
 
 #### Transformer训练过程
 
+Transformer的训练过程与seq2seq类似，Encoder端得到输入的encodeing表示，并将其输入到Decoder端做交互式Attention. Decoder端接收其相应的输入，经过Multi-head Attention之后，结合Encoder端的输出共同输入到Decoder端的交互式Attention模块，再经过FFN得到Decoder端的输出. 最后经过一个线性全连接层，Transformer可以通过softmax来预测下一个单词. **Encoder端可以并行计算，一次性得到输入序列的全部encodeing表示，但Decoder端并不是一次性得到所有的预测单词，而是类似seq2seq一个接一个的预测出来.**
+
+#### Transformer & seq2seq
+
+传统的seq2seq最大的问题在于**将 Encoder 端的所有信息压缩到一个固定长度的向量中**，并将其作为Decoder端首个隐藏状态的输入，来预测Decoder端第一个单词(token)的隐藏状态. 在输入序列比较长的时候，这样做显然会损失Encoder端的很多信息，而且这样一股脑的把该固定向量送入Decoder端，Decoder端不能够关注到其想要关注的信息. 后序的论文虽然对传统seq2seq的两个缺点有所改进，但由于主题模型仍为RNN系列的模型，因此模型的并行能力还是受限. 相较而言，Transformer中的**多头交互式Attention模块**对传统seq2seq模型的两个缺点对seq2seq模型的两点缺点有了实质性的改进，而self-attention模块通过自身和自身的关联，增强了自身的表达度，使的Transformer的表达能力更强，并且Transformer并行计算的能力远远超过seq2seq系列的模型.
+
+#### Transformer中的Encoder表示
+
+Transformer Encoder端得到的是整个输入序列的encoding表示，其中最重要的是经过了self-attention模块，让输入序列的表达更加丰富，而加入词序信息是使用不同频率的正、余弦函数.
+
+#### Transformer如何并行化
+
+Transformer的Decoder端无法并行计算，只能一个接一个的解码，类似RNN，当前时刻的输入依赖于上一个时刻的输出. 对于Encoder端，首先，6个大的模块之间是串行的，一个模块计算的结果做为下一个模块的输入，模块之间有依赖关系，而每个模块自身能够并行处理整个序列. (例如Encoder端的self-attention模块，对于某个序列$x_1, x_2, ..., x_n$，self-attention模块可以直接计算$x_i, x_j$的点乘结果.)
