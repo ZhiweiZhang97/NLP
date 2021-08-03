@@ -46,7 +46,7 @@ Add & Norm模块接在Encoder和Decoder端每个子模块的后面，其中Add�
 
 ### Positional Encoding
 
-由于transformers中不具有循环和卷积结构，为了使模型能够利用序列的顺序信息，因此引入了Positional Encoding来解决这一问题.
+Transformer模型中缺少一种解释输入序列中单词顺序的方法，它跟序列模型还不不一样. 为了处理这个问题，transformer给encoder层和decoder层的输入添加了一个额外的向量Positional Encoding，维度和embedding的维度一样，这个向量采用了一种很独特的方法来让模型学习到这个值，这个向量能决定当前词的位置，或者说在一个句子中不同的词之间的距离.(由于transformers中不具有循环和卷积结构，为了使模型能够利用序列的顺序信息，因此引入了Positional Encoding来解决这一问题.)
 
 $ PE_{(pos,2i)} = sin(pos/10000^{2i/d_{model}}) $
 
