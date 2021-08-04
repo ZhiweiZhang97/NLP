@@ -57,3 +57,27 @@ BERT属于自编码语言模型(Autoencoder LM)，采用了**双向Transformer E
 
 在做Next Sentence Prediction任务时，在第一个句子的首部会加上一个[CLS] token，在两个句子中间以及最后一个句子的尾部会加上一个[SEP] token.
 
+### How to do Fine-tuning
+
+1. 文本分类任务(How to Fine-Tune BERT for Text Classification?)
+
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/ftc.png" width="400"/>
+
+**微调策略:** 采用多种方式在目标任务上微调BERT显然是非常有必要的. BERT不同的层可以捕获到不同级别的语法及语义信息，哪些信息是目标任务所需要的呢？如何选择优化算法以及学习率呢？当把BERT适应到某个目标任务时，需要考虑到因素有: 
+- 长文本序列的预处理(BERT最大序列长度为512); 
+    - 截断法(truncation methods): (1)head-only: 只保留前510个tokens; (2)tail-only: 只保留尾510个tokens; (3) **head+tail(表现最好)**: 根据经验选择前128个tokens与后382个tokens。
+    - 层次法(hierarchical methods): 输入文本首先被分割成$k = L / 510$个切片，然后输入到BERT中得到$k$个切片的表征. 每个切片的表征就是最后一层的符号[CLS]的隐藏层状态. 可以使用 mean pooling、max pooling与self-attention的方式把所有的切片的表征合并起来。
+- 选择哪些BERT层; 
+- 过拟合问题.
+
+2. 语义相似度任务
+
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/语义.png" width="400"/>
+
+在实际操作时，最后一句话之后还会加一个[SEP] token，语义相似度任务将两个句子按照图中方式输入即可，之后与论文中的分类任务一样，将[CLS] token位置对应的输出，接上softmax做分类即可.
+
+3. 多标签分类任务
+
+利用 BERT 模型解决多标签分类问题时，其输入与普通单标签分类问题一致，得到其embedding表示之后(也就是BERT输出层的embedding)，有几个label就连接到几个全连接层(也可以称为projection layer)，然后再分别接上softmax分类层，这样的话会得到多个loss ，最后再将所有的loss相加起来即可. (相当于将n个分类模型的特征提取层参数共享，得到一个共享的表示(其维度可以视任务而定，由于是多标签分类任务，因此其维度可以适当增大一些)，最后再做多标签分类任务.)
+
+
