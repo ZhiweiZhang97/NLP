@@ -37,21 +37,21 @@ BERT属于自编码语言模型(Autoencoder LM)，采用了**双向Transformer E
 
 ### BERT的局限性
 
-- 1、BERT在Pre-training阶段MASK的多个单词之间没有任何关系，是条件独立的，然而有时候这些单词之间是有关系的
+1. BERT在Pre-training阶段MASK的多个单词之间没有任何关系，是条件独立的，然而有时候这些单词之间是有关系的
     - 比如”New York is a city”，假设Mask住”New”和”York”两个词，那么给定”is a city”的条件下”New”和”York”并不独立，因为”New York”是一个实体，看到”New”则后面出现”York”的概率要比看到”Old”后面出现”York”概率要大得多. (能够依靠海量的训练数据来减少这个问题对结果的影响，当训练语料足够大的时候总有例子能够学会这些单词的相互依赖关系.)
-- 2、由于在BERT的Pre-training阶段的特殊[MASK]标记不会出现在Fine-tuning阶段，这就导致了两阶段不一致的问题. 所以BERT的Masked LM任务中随机选择的15%的单词并没有被全部MASK掉，一定程度上缓解了这一问题.
-- 3、为了解决OOV问题，我们通常会把词分成更细粒度的WordPiece. BERT在Pre-training的时候是随机Mask这些WordPiece的，这就可能出现只 Mask一个词的一部分的情况. 对于该问题后续推出了WWM版本(Whole Word Masking).
+2. 由于在BERT的Pre-training阶段的特殊[MASK]标记不会出现在Fine-tuning阶段，这就导致了两阶段不一致的问题. 所以BERT的Masked LM任务中随机选择的15%的单词并没有被全部MASK掉，一定程度上缓解了这一问题.
+3. 为了解决OOV问题，我们通常会把词分成更细粒度的WordPiece. BERT在Pre-training的时候是随机Mask这些WordPiece的，这就可能出现只 Mask一个词的一部分的情况. 对于该问题后续推出了WWM版本(Whole Word Masking).
 
-- 4、BERT对生成式任务处理效果不好(自回归语言模型Pre-train模式的原因). BERT对超长文本效果不理想.
+4. BERT对生成式任务处理效果不好(自回归语言模型Pre-train模式的原因). BERT对超长文本效果不理想.
 
 ### BERT的输入输出
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/BERT_INPUT.png" width="400"/>
 
 **输入:** 
-    1、文本中各个字/词(或者称为token)的原始**词向量(Token Embeddings)**，该向量既可以随机初始化，也可以利用Word2Vector等算法进行预训练以作为初始值;
-    2、**文本向量(Segment Embeddings)**，该向量的取值在模型训练过程中自动学习，用于刻画文本的全局语义信息，并与单字/词的语义信息相融合;
-    3、**位置向量(Position Embeddings)**，由于出现在文本不同位置的字/词所携带的语义信息存在差异，因此，BERT模型对不同位置的字/词分别附加一个不同的向量以作区分.
+1. 文本中各个字/词(或者称为token)的原始**词向量(Token Embeddings)**，该向量既可以随机初始化，也可以利用Word2Vector等算法进行预训练以作为初始值;
+2. **文本向量(Segment Embeddings)**，该向量的取值在模型训练过程中自动学习，用于刻画文本的全局语义信息，并与单字/词的语义信息相融合;
+3. **位置向量(Position Embeddings)**，由于出现在文本不同位置的字/词所携带的语义信息存在差异，因此，BERT模型对不同位置的字/词分别附加一个不同的向量以作区分.
 
 **输出:** 输出是文本中各个字/词融合了全文语义信息后的向量表示.(全局语义表征向量 & 各个词的表征向量)
 
