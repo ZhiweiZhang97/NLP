@@ -49,9 +49,9 @@ BERT属于自编码语言模型(Autoencoder LM)，采用了**双向Transformer E
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/BERT_INPUT.png" width="400"/>
 
 **输入:** 
-- 1、文本中各个字/词(或者称为token)的原始**词向量(Token Embeddings)**，该向量既可以随机初始化，也可以利用Word2Vector等算法进行预训练以作为初始值;
-- 2、**文本向量(Segment Embeddings)**，该向量的取值在模型训练过程中自动学习，用于刻画文本的全局语义信息，并与单字/词的语义信息相融合;
-- 3、**位置向量(Position Embeddings)**，由于出现在文本不同位置的字/词所携带的语义信息存在差异，因此，BERT模型对不同位置的字/词分别附加一个不同的向量以作区分.
+    1、文本中各个字/词(或者称为token)的原始**词向量(Token Embeddings)**，该向量既可以随机初始化，也可以利用Word2Vector等算法进行预训练以作为初始值;
+    2、**文本向量(Segment Embeddings)**，该向量的取值在模型训练过程中自动学习，用于刻画文本的全局语义信息，并与单字/词的语义信息相融合;
+    3、**位置向量(Position Embeddings)**，由于出现在文本不同位置的字/词所携带的语义信息存在差异，因此，BERT模型对不同位置的字/词分别附加一个不同的向量以作区分.
 
 **输出:** 输出是文本中各个字/词融合了全文语义信息后的向量表示.(全局语义表征向量 & 各个词的表征向量)
 
