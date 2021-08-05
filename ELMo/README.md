@@ -32,10 +32,10 @@ ELMo的训练过程实际上指的是其第一阶段的预训练过程(即训练
 
 综上，ELMo的训练过程即为一个前后向语言模型的训练过程，其训练目标就是最大化:
 $
-\sum_{k=1}^N(logp(t_k|t_1, ..., t_{k-1};\Theta_x, \vec{\Theta}_{LSTM}, \Theta_s) + logp(t_k|t_{k+1}, ..., t_N; \Theta_x, \overleftarrow{\Theta}_{LSTM}, \Theta_s))
+\sum_{k=1}^N(\log{p}(t_k|t_1, ..., t_{k-1};\Theta_x, \vec\Theta_{LSTM}, \Theta_s) + \log{p}(t_k|t_{k+1}, ..., t_N; \Theta_x, \overleftarrow\Theta_{LSTM}, \Theta_s))
 $. ELMode 损失函数为简单的分类损失，取决于源码实现.
 
-其中，$\Theta_x$为Token表示的参数(前后向语言模型共享)，表示映射层的共享，表示第一步中，将单词映射为word embedding的共享，就是说同一个单词，映射为同一个word embedding; $\Theta_s$为softmax分类的参数(前后向语言模型共享)，表示第三步中的上下文矩阵的参数;$\vec{\Theta}_{LSTM},\overleftarrow{\Theta}_{LSTM}$分别表示前向和后向语言模型LSTM层参数.
+其中，$\Theta_x$为Token表示的参数(前后向语言模型共享)，表示映射层的共享，表示第一步中，将单词映射为word embedding的共享，就是说同一个单词，映射为同一个word embedding; $\Theta_s$为softmax分类的参数(前后向语言模型共享)，表示第三步中的上下文矩阵的参数;$\vec\Theta_{LSTM},\overleftarrow\Theta_{LSTM}$分别表示前向和后向语言模型LSTM层参数.
 
 
 
