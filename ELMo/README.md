@@ -41,9 +41,11 @@ $.
 
 对于序列中的每个Token，一个L层的双层语言模型会得到其**2L+1个表示**，即:
 $
-R_k = \{x_k^{LM}, \vec h_{k,j}^{LM}, \overleftarrow{h}_{k,j}^{LM}|j=1, ..., L \}
+R_k = \{x_k^{LM}, \vec h_{k,j}^{LM}, \overleftarrow{h}_{k,j}^{LM}|j=1, ..., L \} 
 $
-
+$
+R_k = \left\{h_{k,j}^{LM}|j = 0, ..., L \right\}
+$
 
 
 
