@@ -80,4 +80,35 @@ BERT属于自编码语言模型(Autoencoder LM)，采用了**双向Transformer E
 
 利用 BERT 模型解决多标签分类问题时，其输入与普通单标签分类问题一致，得到其embedding表示之后(也就是BERT输出层的embedding)，有几个label就连接到几个全连接层(也可以称为projection layer)，然后再分别接上softmax分类层，这样的话会得到多个loss ，最后再将所有的loss相加起来即可. (相当于将n个分类模型的特征提取层参数共享，得到一个共享的表示(其维度可以视任务而定，由于是多标签分类任务，因此其维度可以适当增大一些)，最后再做多标签分类任务.)
 
+### BERT的embedding向量
 
+BERT的输入是Token Embeddings、Segment Embeddings、Position Embeddings之和. 这三个embedding都是随机生产的，在Transformer中Position embedding是由sin/cos函数生成的固定值，而BERT中Position Embeddings与普通的Word Embedding一样是随机生成的，可以训练的.
+
+### BERT模型中的mask
+
+#### Why use Mask？
+
+BERT的主要任务之一就是根据上下文预测那些在输入过程中被随机Mask掉的一部分单词. 这是一个典型的Denosing Autoencoder思路，加入Mask相当于在输入端加入噪声，这种方式优点是**能够比较自然的融入双向语言模型**，缺点是**引入了噪声，导致Pre-train和Fine-tune不一致.**
+
+### How to do Mask？
+
+训练过程中作者随机Mask 15%的词汇. 对于这15%的词汇，其中80%采用一个特殊符号[MASK]进行替换，10%采用一个任意词替换，剩余10%保持原词汇不变. 这样做的好处是，BERT并不知道[MASK]替换的是这15%的Token中的哪一个词(**即输入的时候不知道[MASK]替换的是哪一个词，但是输出知道要预测哪个词的**)，而且任何一个词都有可能是被替换掉的，这样强迫模型在编码当前时刻的时候不能太依赖于当前的词，而要考虑它的上下文，甚至对其上下文进行”纠错”.
+
+### 相较于CBOW有什么异同点
+
+**相同点:** CBOW的核心思想是: 给定上下文，根据它的上下文(Context-Before、Context-after)去预测input word. BERT本质上也是根据上下文来预测目标词，不同的是BERT给定一个句子，随机Mask 15%的词，然后让BERT来预测这些Mask的词.
+
+**不同点:** 在CBOW中，每个单词都会成为input word(如果BERT也这么做，会导致训练数据过大，训练时间太长); 此外对于输入数据，CBOW中的输入数据只有预测单词的上下文，而BERT是带有[MASK] Token的句子(也就是说BERT将输入端待预测的input word用[MASK] Token替代了); 另外通过CBOW模型训练后，每个单词的Word Embedding是唯一的(并不能很好的处理一词多义问题)，而BERT模型得到的Word Embedding融合了上下文的信息(同一个词，在不同的上下文环境下，得到的Word Embedding是不一样的).
+
+- 为什么BERT输入数据不像CBOW那样，每一条数据只留一个“空”，这样的话，之后在预测的时候，就可以将待预测单词之外的所有单词的表示融合起来(均值融合或者最大值融合等方式)，然后再接上softmax做分类:
+    - 如果这样做的话，每预测一个单词，就要计算一套Q、K、V. 那么保存每次得到的Q、K、V就需要耗费大量的空间. 总而言之，这种做法确实可能也是可行，但是实际操作难度却很大，从计算量来说，就是预训练BERT模型的好几倍(至少)，而且要保存中间状态也并非易事.
+
+### BERT的损失函数
+
+BERT的损失函数由两部分组成: **单词级别分类任务**Masked—LM + **句子级别分类任务**Next Sentence Prediction. 通过联合学习两个任务，可以使BERT学习到的表征同时带有Token级别信息和句子级别信息.
+
+$
+    L(\theta, \theta_1, \theta_2) = L(\theta, \theta_1) + L(\theta, \theta_2) = - \sum_{i=1}^M logp(m=m_i|\theta, \theta_1) - \sum_{j=1}^N logp(n=n_i|\theta, \theta_2)
+$
+
+其中，$\theta$是BERT中Encoder部分的参数，$\theta_1$是Masked LM任务中在Encoder上所接的输出层中的参数，$\theta_2$是Next Sentence Prediction任务中Encoder接上的分类器参数，M为被Mask的词的集合，$|V|$是词典大小.
