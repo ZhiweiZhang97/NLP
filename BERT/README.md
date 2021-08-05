@@ -8,7 +8,7 @@ BERT属于自编码语言模型(Autoencoder LM)，采用了**双向Transformer E
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/BERT.jpeg" width="400"/>
 
-对比单向Transformer结构的OpenAI GPT(AR)，BERT(AE)是双向的Transformer block连接，对比ELMo，虽然都是“双向”，但目标函数是不同的. ELMo分别以$P(w_i|w_1, ..., w_{i-1})$和$P(w_i|w_{i+1}, ..., w_n)$作为目标函数，独立处理两个representation然后拼接，而BERT则是以$P(w_i|w_1, ..., w_{i-1}, w_{i+1}, ..., w_n)$作为目标函数. ELMo尽管看上去利用了上文，也利用了下文，但是本质上仍然是自回归LM，这个跟模型具体怎么实现有关系. ELMO是做了两个方向(从左到右以及从右到左两个方向的自回归语言模型)，然后把LSTM的两个方向的隐节点状态拼接到一起，来体现双向语言模型这个事情的. 所以其实是两个自回归语言模型的拼接，本质上仍然是自回归语言模型.
+对比单向Transformer结构的OpenAI GPT(AR)，BERT(AE)是双向的Transformer block连接，对比ELMo，虽然都是“双向”，但目标函数是不同的. ELMo分别以$P(w_i|w_1, ..., w_{i-1})$和$P(w_i|w_{i+1}, ..., w_n)$作为目标函数，独立处理两个representation然后拼接，而BERT则是以$P(w_i|w_1, ..., w_{i-1}, w_{i+1}, ..., w_n)$作为目标函数. ELMo尽管看上去利用了上文，也利用了下文，但是本质上仍然是自回归LM，这个跟模型具体怎么实现有关系. ELMo是做了两个方向(从左到右以及从右到左两个方向的自回归语言模型)，然后把LSTM的两个方向的隐节点状态拼接到一起，来体现双向语言模型这个事情的. 所以其实是两个自回归语言模型的拼接，本质上仍然是自回归语言模型.
 
 ### 训练过程
 #### 1、Masked LM
