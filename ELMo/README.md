@@ -38,7 +38,19 @@ $.
 其中，$\Theta_x$为Token表示的参数(前后向语言模型共享)，表示映射层的共享，表示第一步中，将单词映射为word embedding的共享，就是说同一个单词，映射为同一个word embedding; $\Theta_s$为softmax分类的参数(前后向语言模型共享)，表示第三步中的上下文矩阵的参数;$\vec\Theta_{LSTM}$, $\overleftarrow\Theta_{LSTM}$ 分别表示前向和后向语言模型LSTM层参数. 
 ELMode 损失函数为简单的分类损失，取决于源码实现.
 
-## How to use ELMo？
+## How to use the trained ELMo？
+
+对于序列中的每个Token，一个L层的双层语言模型会得到其**2L+1个表示**，即:
+$
+R_k = {x_k^{LM}, \vac h_{k,j}^{LM}, \overleftarrow{h}_{k,j}^{LM}|j=1, ..., L}}
+$
+$
+R_k = {h_{k,j}^{LM}|j = 0, ..., L}
+$
+
+
+
+
 
 
 
