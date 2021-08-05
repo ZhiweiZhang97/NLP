@@ -108,8 +108,9 @@ BERT的主要任务之一就是根据上下文预测那些在输入过程中被�
 BERT的损失函数由两部分组成: **单词级别分类任务**Masked—LM + **句子级别分类任务**Next Sentence Prediction. 通过联合学习两个任务，可以使BERT学习到的表征同时带有Token级别信息和句子级别信息.
 
 $
-    L(\theta, \theta_1, \theta_2) = L(\theta, \theta_1) + L(\theta, \theta_2) \\
-    = - \sum_{i=1}^M logp(m=m_i|\theta, \theta_1) - \sum_{j=1}^N logp(n=n_i|\theta, \theta_2) , m_i \in [1, 2, ..., |V|]; n_i \in [IsNext, NotNext]
+    L(\theta, \theta_1, \theta_2) = L(\theta, \theta_1) + L(\theta, \theta_2) = - \sum_{i=1}^M logp(m=m_i|\theta, \theta_1) - \sum_{j=1}^N logp(n=n_i|\theta, \theta_2) 
 $
+
+$ m_i \in [1, 2, ..., |V|]; n_i \in [IsNext, NotNext]$
 
 其中，$\theta$是BERT中Encoder部分的参数，$\theta_1$是Masked LM任务中在Encoder上所接的输出层中的参数，$\theta_2$是Next Sentence Prediction任务中Encoder接上的分类器参数，M为被Mask的词的集合，$|V|$是词典大小. BERT还利用了一系列策略，使得模型更易于训练，比如对于学习率的warm-up策略，使用的激活函数不再是普通的ReLu，而是GeLu，也使用了dropout等常见的训练技巧.
