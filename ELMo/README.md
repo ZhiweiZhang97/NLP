@@ -43,7 +43,10 @@ $
 $
 R_k = \lbrace{x_k^{LM}, \vec h_{k,j}^{LM}, \overleftarrow h_{k,j}^{LM}|j=1, ..., L \rbrace} = \lbrace{h_{k,j}^{LM}|j = 0, ..., L \rbrace}
 $
-
+其中，$h_{k,j}^{LM}$为Token表示(即$h_{k,0}^{LM} = x_k^{LM}$)，$h_{k,j}^{LM} = [\vec h_{k,j}^{LM}; \overleftarrow h_{k,j}^{LM}]$为每个双向LSTM层得到的表示. 这里是将整个句子输入到双向语言模型(双向LSTM网络)中，正向和反向LSTM网络共享Token Embedding的输入，源码中Token Embedding、正向、反向LSTM的hidden state均为512维度，一个长度为n的句子，经过ELMo预训练网络，最后得到的embedding的维度为: (n, 3, max_sentence_length, 1024). 在下游任务中:
+$
+ELMo_k^{task} = E(R_k; \Theta^{task}) = \gamma^{task}\sum_{j=0}^{L}s_j^{task}\textbf{h}_{k,j}^{LM}, s_j^{task} = e^{s_j}/\sum_{i}^{N}e^{s_i}
+$
 
 
 
