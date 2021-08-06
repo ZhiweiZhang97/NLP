@@ -43,10 +43,18 @@ $
 $
 R_k = \lbrace{x_k^{LM}, \vec h_{k,j}^{LM}, \overleftarrow h_{k,j}^{LM}|j=1, ..., L \rbrace} = \lbrace{h_{k,j}^{LM}|j = 0, ..., L \rbrace}
 $
+
 其中，$h_{k,j}^{LM}$为Token表示(即$h_{k,0}^{LM} = x_k^{LM}$)，$h_{k,j}^{LM} = [\vec h_{k,j}^{LM}; \overleftarrow h_{k,j}^{LM}]$为每个双向LSTM层得到的表示. 这里是将整个句子输入到双向语言模型(双向LSTM网络)中，正向和反向LSTM网络共享Token Embedding的输入，源码中Token Embedding、正向、反向LSTM的hidden state均为512维度，一个长度为n的句子，经过ELMo预训练网络，最后得到的embedding的维度为: (n, 3, max_sentence_length, 1024). 在下游任务中:
 $
 ELMo_k^{task} = E(R_k; \Theta^{task}) = \gamma^{task}\sum_{j=0}^{L}s_j^{task}\textbf{h}_{k,j}^{LM}, s_j^{task} = e^{s_j}/\sum_{i}^{N}e^{s_i}
 $
+
+其中，$s^task$是经过soft Max归一化之后的权重，标量参数$\gamma^{task}$允许任务模型缩放整个ELMo向量($\gamma^{task}$是一个超参数，实际上这个参数是经验参数，一定程度上能够增强模型的灵活性). 综上，为下游任务获取Embedding的过程为:
+
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/ELMo4.png" width="400"/>
+
+## ELMo的优缺点
+
 
 
 
