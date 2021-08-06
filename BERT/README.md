@@ -1,4 +1,4 @@
-# BERT
+# BERT (Bidirectional Encoder Representations from Transformers)
 
 BERT属于自编码语言模型(Autoencoder LM)，采用了**双向Transformer Encoder结构**，并且设计了两个任务来预训练模型.
 - 第一个任务是采用MLM的方式来训练语言模型，通俗地说就是在输入一句话的时候，随机地选一些要预测的词，然后用一个特殊的符号[MASK]来代替它们，之后让模型根据所给的标签去学习这些地方该填的词. (**Masked LM**)
@@ -113,7 +113,7 @@ $
 
 $ m_i \in [1, 2, ..., |V|]; n_i \in [IsNext, NotNext]$
 
-其中，$\theta$是BERT中Encoder部分的参数，$\theta_1$是Masked LM任务中在Encoder上所接的输出层中的参数，$\theta_2$是Next Sentence Prediction任务中Encoder接上的分类器参数，M为被Mask的词的集合，$|V|$是词典大小. BERT还利用了一系列策略，使得模型更易于训练，比如对于学习率的warm-up策略，使用的激活函数不再是普通的ReLu，而是GeLu，也使用了dropout等常见的训练技巧.
+其中，$\theta$是BERT中Encoder部分的参数，$\theta_1$是Masked LM任务中在Encoder上所接的输出层中的参数，$\theta_2$是Next Sentence Prediction任务中Encoder接上的分类器参数，M为被Mask的词的集合，$|V|$是词典大小. BERT还利用了一系列策略，使得模型更易于训练，比如对于学习率的warm-up策略，使用的激活函数不再是普通的ReLu，而是GeLu(相比Relu：Relu将小于0的数据映射到0，将大于0的不变，虽然性能比sigmoid好，但是缺乏数据的统计特性，而Gelu则在Relu的基础上加入了统计的特性. 论文中提到在好几个深度学习任务中都优于Relu的效果.)，也使用了dropout等常见的训练技巧.
 
 ### BoW -> Word2Vec -> BERT
 

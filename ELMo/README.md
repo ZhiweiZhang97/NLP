@@ -1,4 +1,4 @@
-# ELMo
+# ELMo (Embeddings from Language Models)
 
 ELMo采用了典型的两阶段过程: **1、利用语言模型进行预训练; 2、在做下游任务时，从预训练网络中提取对应单词的网络各层的Word Embedding作为新特征补充到下游任务中.**
 
