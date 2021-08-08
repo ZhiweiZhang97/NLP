@@ -6,6 +6,6 @@ GPT的核心思想是先**通过无标签的文本去训练生成语言模型**(
 
 GPT采用多层双向Transformer结构，分为无监督训练和有监督fine-tuning两个阶段.
 
-<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/GPT.png" width="400"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/GPT.png" width="600"/>
 
 GPT使用Transformer的Decoder结构，并对Transformer Decoder进行了一些改动，原本的Decoder包含了两个Multi-Head Attention结构，GPT只保留了Mask Multi-Head Attention.
