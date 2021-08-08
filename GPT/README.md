@@ -16,14 +16,18 @@ GPT使用Transformer的Decoder结构，并对Transformer Decoder进行了一些�
 $
 L_1(u) = \sum_{i}\log P(u_i|u_{i-k}, ..., u_{i-1}; \Theta)
 $
-其中，k是文本上下文窗口的大小. input为词嵌入($W_e$)以及单词token的位置信息(W_p):
+其中，k是文本上下文窗口的大小.
+
+input为词嵌入($W_e$)以及单词token的位置信息(W_p):
 $
 h_0 = UW_e + W_p
 $
+
 得到输入$h_0$之后，需要将$h_0$依次传入GPT的所有Transformer Decoder里，最终得到
 $
 h_t = transformer_block(h_{l-1}), l \in [1,t]
 $
+
 最后在预测下一个单词的概率
 $
 P(u) = softmax(h_tW_e^T)
