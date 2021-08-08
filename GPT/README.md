@@ -9,3 +9,11 @@ GPT采用多层双向Transformer结构，分为无监督训练和有监督fine-t
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/GPT.png" width="600"/>
 
 GPT使用Transformer的Decoder结构，并对Transformer Decoder进行了一些改动，原本的Decoder包含了两个Multi-Head Attention结构，GPT只保留了Mask Multi-Head Attention.
+
+### 1、无监督训练
+
+给定无标签的文本$U = \lbrace{u_1, ..., u_n \rbrace}$，最大化语言模型的极大似然函数:
+$
+L_1(u) = \sum_{i}\log P(u_i|u_{i-k}, ..., u_{i-1}; \Theta)
+$
+其中，k是文本上下文窗口的大小.
