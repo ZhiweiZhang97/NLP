@@ -21,7 +21,7 @@ $
 
 **Precision Recall Curve:** 描述查全率/查全率变化的曲线. 根据预测结果对测试样本进行排序，将最有可能是“正”的样本排在前面，最不可能是“正”的样本排在后面. 之后，按照这个顺序，将样本作为“正例”进行预测，并每次计算当前P值和R值.
 
-<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/PRC.png" width="600"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/PRC.png" width="300"/>
 
 **F1-score:** P和r的调和平均值，F1越高，模型的性能越好.
 $
