@@ -31,9 +31,11 @@ $
 $
 P_{macro} = \frac{1}{n}\sum_{i=1}^n Precision_i, P_{micro} = \frac{\sum_{i=1}^n TP_i}{\sum_{i=1}^n (TP_i + FP_i)}
 $
+
 $
 R_{macro} = \frac{1}{n}\sum_{i=1}^n Recall_i, R_{micro} = \frac{\sum_{i=1}^n TP_i}{\sum_{i=1}^n (TP_i + FN_i)}
 $
+
 $
 F_{macro} = \frac{2 \times P_{macro} \times R_{macro}}{P_{macro} + R_{macro}}, F_{micro} = \frac{2 \times P_{micro} \times R_{micro}}{P_{micro} + R_{micro}}
 $
