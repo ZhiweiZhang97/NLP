@@ -8,7 +8,7 @@ GPT采用多层双向Transformer结构，分为无监督训练和有监督fine-t
 
 <img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/GPT.png" width="600"/>
 
-GPT使用Transformer的Decoder结构，并对Transformer Decoder进行了一些改动，原本的Decoder包含了两个Multi-Head Attention结构，GPT只保留了Mask Multi-Head Attention.
+GPT使用Transformer的Decoder结构，并对Transformer Decoder进行了一些改动，原本的Decoder包含了两个Multi-Head Attention结构，GPT只保留了Mask Multi-Head Attention. 
 
 ### 1、无监督训练
 
@@ -18,7 +18,7 @@ L_1(u) = \sum_{i}\log P(u_i|u_{i-k}, ..., u_{i-1}; \Theta)
 $
 其中，k是文本上下文窗口的大小.
 
-input为词嵌入($W_e$)以及单词token的位置信息(W_p):
+input为词嵌入($W_e$)以及单词token的位置信息(W_p. 与Transformer不同, GPT的位置编码并非是通过三角函数计算来的, 而是通过训练学习到的.):
 $
 h_0 = UW_e + W_p
 $
@@ -56,4 +56,24 @@ $
 
 对于文本分类，只需要在预训练模型上微调。对于QA任务或者文本蕴含，因为预训练模型是在连续序列上训练，需要做一些调整，修改输入结构，将输入转化为有序序列输入.
 
-1. **文本蕴含:** 将前提$p$和$h$序列拼接，中间用($)符号来分割两个序列.
+1. **文本蕴含:** 将前提$p$和序列$h$拼接，中间用($)符号来分割两个序列.
+2. **文本相似度:** 分别输入两个序列，通过GPT得到两个序列的特征向量，再逐元素相加输入线性层.
+3. **问答和常识推理:** 给定上下文z，问题q，以及一组可能的候选答案{$a_k$}，将三者拼接起来，的到输入序列[z; q; $; $a_k$]，输入预训练模型，经过softmax层得到候选答案的概率分布.
+
+### GPT1 / GPT2
+
+- GPT1
+    - 采用Transformer进行特征抽取，可以捕捉到更长范围的信息，首次将Transformer用于预训练语言模型;
+    - fine-tune阶段引入语言模型辅助目标，解决fine-tune过程中的灾难性疑问;
+    - 预训练和fine-tune一致，统一两阶段框架.
+- GPT2
+    - 没有针对特定模型的精调流程: GPT2认为预训练中已包含很多特定任务所需的信息;
+    - 生成任务取得很好的效果，使用覆盖广、质量高的数据.
+- 缺点
+    - 依然为单项自回归语言模型，无法获取上下文相关的特征表示.
+- Difference Between GPT1 and GPT2
+    - 使用了更大的数据集;
+    - 增加了海量参数，并推出了几个不同的版本(一个比一个大)，除了使用的DEcoder个数不同，它们的Embedding维度也是不同的;
+    - 去掉了fine-tune层，直接输入任务和所需内容就能得到输出;
+    - 将Layer Norm放到了每个子层的输入前，并且在最后一个自注意力层后添加了Layer Norm. 通过放缩权重更换了残差层的初始化方式.
+
