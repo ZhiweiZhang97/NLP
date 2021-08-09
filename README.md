@@ -39,3 +39,19 @@ $
 $
 F_{macro} = \frac{2 \times P_{macro} \times R_{macro}}{P_{macro} + R_{macro}}, F_{micro} = \frac{2 \times P_{micro} \times R_{micro}}{P_{micro} + R_{micro}}
 $
+
+**ROC曲线、AUC值:** 接收者操作特征曲线（receiver operating characteristic curve），是反映敏感性和特异性连续变量的综合指标，ROC曲线上每个点反映着对同一信号刺激的感受性. ROC曲线:
+
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/ROC.png" width="300"/>
+
+- 横坐标: 伪正类率(False positive rate，FPR，FPR=FP/(FP+TN))，预测为正但实际为负的样本占所有负例样本的比例;
+- 纵坐标: 真正类率(True positive rate，TPR，TPR=TP/(TP+FN))，预测为正且实际为正的样本占所有正例样本的比例.
+
+理想情况: TPR应接近1，FPR接近0，即图中的（0,1）点. ROC曲线越靠拢（0,1）点，越偏离45度对角线越好.
+
+AUC(Area Under Curve)被定义为ROC曲线下的面积，显然这个面积的数值不会大于1. 又由于ROC曲线一般都处于y=x这条直线的上方，所以AUC的取值范围一般在0.5和1之间. 使用AUC值作为评价标准是因为很多时候ROC曲线并不能清晰的说明哪个分类器的效果更好，而作为一个数值，对应AUC更大的分类器效果更好. AUC值越大的分类器，正确率越高.
+
+- AUC = 1，是完美分类器，采用这个预测模型时，存在至少一个阈值能得出完美预测(绝大多数预测的场合，不存在完美分类器);
+- 0.5 < AUC < 1，优于随机猜测. 这个分类器(模型)妥善设定阈值的话，能有预测价值;
+- AUC = 0.5，跟随机猜测一样，模型没有预测价值;
+- AUC < 0.5，比随机猜测还差；但只要总是反预测而行，就优于随机猜测.
