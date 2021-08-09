@@ -42,7 +42,7 @@ $
 
 **ROC曲线、AUC值:** 接收者操作特征曲线（receiver operating characteristic curve），是反映敏感性和特异性连续变量的综合指标，ROC曲线上每个点反映着对同一信号刺激的感受性. ROC曲线:
 
-<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/ROC.png" width="300"/>
+<img src="https://github.com/ZhiweiZhang97/NLP/blob/main/image/ROC.webp" width="300"/>
 
 - 横坐标: 伪正类率(False positive rate，FPR，FPR=FP/(FP+TN))，预测为正但实际为负的样本占所有负例样本的比例;
 - 纵坐标: 真正类率(True positive rate，TPR，TPR=TP/(TP+FN))，预测为正且实际为正的样本占所有正例样本的比例.
