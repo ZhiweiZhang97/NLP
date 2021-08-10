@@ -55,3 +55,7 @@ AUC(Area Under Curve)被定义为ROC曲线下的面积，显然这个面积的�
 - 0.5 < AUC < 1，优于随机猜测. 这个分类器(模型)妥善设定阈值的话，能有预测价值;
 - AUC = 0.5，跟随机猜测一样，模型没有预测价值;
 - AUC < 0.5，比随机猜测还差；但只要总是反预测而行，就优于随机猜测.
+
+## 常见优化器: SGD、BGD、MBGD、Momentum、Adagrad、RMSprop、Adam
+
+
