@@ -104,7 +104,7 @@ $
 更新原则: 和Adagrad相比, 就是分母的$G_{t,ii}$换成了过去的梯度平方的衰减平均值(指数衰减平均值$\sqrt{E[g^2]_t} + \epsilon$). 这个分母相当于梯度的均方根, 所以简写为$RMS[g]_t$. 此外还将学习率$\theta$换成了$RMS[\Delta\theta]$.
 
 $
-E[g^2]_t = \gamma E[g^2]_{t-1} + (1 + \gamma)g^2_t
+E[g^2]_t = \gamma __E[g^2]_{t-1} + (1 + \gamma)g^2_t
 $
 
 $
