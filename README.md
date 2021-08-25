@@ -101,4 +101,12 @@ $
 - 缺点: 分母会不断积累, 导致学习率会收缩并最终变得很小.
 
 ### Adadelta(解决Adagrad分母不断积累, 导致学习率收缩变得非常小的问题)
-更新原则: 和Adagrad相比, 就是分母的$G_{t,ii}$换成了过去的梯度平方的衰减平均值(指数衰减平均值$\sart{E[g^2]_t} + \epsilon$).
+更新原则: 和Adagrad相比, 就是分母的$G_{t,ii}$换成了过去的梯度平方的衰减平均值(指数衰减平均值$\sqrt{E[g^2]_t} + \epsilon$). 这个分母相当于梯度的均方根, 所以简写为$RMS[g]_t$. 此外还将学习率$\theta$换成了$RMS[\Delta\theta]$.
+
+$
+E[g^2]_t = \gamma E[g^2]_{t-1} + (1 + \gamma)g^2_t
+$
+
+$
+\theta_{t+1} = \theta_t + \Delta\theta_t = \theta_t - \frac{RMS[\Delta\theta]}{RMS[g]_t}g_t
+$
