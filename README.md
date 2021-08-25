@@ -110,3 +110,41 @@ $
 $
 \theta_{t+1} = \theta_t + \Delta\theta_t = \theta_t - \frac{RMS[\Delta\theta]}{RMS[g]_t}g_t
 $
+
+- AdaDelta算法没有学习率超参数，它通过使用有关自变量更新量平方的指数加权移动平均的项来替代学习率.
+
+### RMSporp(解决Adagrad学习率急剧下降问题)
+
+更新原则: RMSprop与Adadelta类似, 分母使用的是指数加权平均, 旨在消除梯度下降中的摆动, 与Momentum的效果一样, 某一维度的导数比较大, 则指数加权平均就大, 某一维度的导数比较小, 则其指数加权平均就小, 这样就保证了各维度导数都在一个量级, 进而减少了摆动, 允许使用一个较大的学习率.
+
+$
+E_t = 0.9E_{t-1} + 0.1 g^2_t
+$
+
+$
+\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2_t]} + \epsilon}
+$
+
+### Adam(Adaptive Moment Estimation: 一种计算每个参数的自适应学习率方法)
+
+更新原则: 相当于RMSprop + Momentum. 除了像Adadelt和RMSprop一样存储了过去梯度的平方$v_t$的指数衰减平均值, 也像Momentum一样保持了过去梯度$m_t$的指数衰减平均值.
+
+$
+m_t = \beta_1m_{t-1} + (1 + \beta_1)g_t
+$
+
+$
+v_t = \beta_2v_{t-1} + (1 + \beta_2)g^2_t
+$
+
+$
+\hat{m}_t = \frac{m_t}{1-\beta^t_1}
+$
+
+$
+\hat{v}_t = \frac{v_t}{1-\beta^t_2}
+$
+
+$
+\theta_{t+1} = \theta - \frac{\eta}{\sqrt{\hat{v}_t}+\varepsilon} \hat{m}_t
+$
